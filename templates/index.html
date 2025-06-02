@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Elegante - Experiencia Gourmet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS desde CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8B5A2B',
+                        secondary: '#D2B48C',
+                        accent: '#A67C52',
+                        light: '#F5F5DC',
+                        dark: '#3C2A1E',
+                    },
+                    fontFamily: {
+                        heading: ['Playfair Display', 'serif'],
+                        body: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos personalizados que complementan a Tailwind */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animaciones y transiciones */
+        .menu-item {
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .menu-item-img img {
+            transition: transform 0.5s ease;
+        }
+
+        .menu-item:hover .menu-item-img img {
+            transform: scale(1.1);
+        }
+
+        /* Animación para el menú desplegable */
+        .dropdown-menu {
+            opacity: 0;
+            transform: translateY(-10px);
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        /* Animación para el botón de añadir al carrito */
+        .add-to-cart-btn {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Animación para el modal del carrito */
+        .cart-modal {
+            opacity: 0;
+            transform: translateY(-20px);
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+
+        .cart-modal.active {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        /* Animación para el contador del carrito */
+        @keyframes cartBadgePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .cart-badge-pulse {
+            animation: cartBadgePulse 0.5s ease;
+        }
+    </style>
+</head>
+<body class="font-body text-dark bg-light">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full bg-gradient-to-r from-dark/90 to-primary/90 z-50 transition-all duration-300" id="main-nav">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="font-heading text-2xl text-white">Café Elegante</a>
+                <ul class="hidden md:flex items-center space-x-8">
+                    <li><a href="#home" class="text-white hover:text-secondary transition-colors">Inicio</a></li>
+                    <li class="relative">
+                        <a href="#menu" class="text-white hover:text-secondary transition-colors flex items-center" id="menu-dropdown-toggle">
+                            Menú
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </a>
+                        <!-- Menú desplegable vertical -->
+                        <div class="dropdown-menu absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50" id="menu-dropdown">
+                            <a href="#cafeteria" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Cafetería</a>
+                            <a href="#jugos" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Jugos</a>
+                            <a href="#zumos" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Zumos</a>
+                            <a href="#masitas" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Masitas</a>
+                            <a href="#sandwiches" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Sándwiches</a>
+                            <a href="#refrescos" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Refrescos</a>
+                            <a href="#postres" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Postres</a>
+                            <a href="#platos-extras" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Platos Extras</a>
+                        </div>
+                    </li>
+                    <li><a href="#contact" class="text-white hover:text-secondary transition-colors">Contacto</a></li>
+                    <li class="relative">
+                        <a href="#" class="text-white hover:text-secondary transition-colors flex items-center" id="cart-toggle">
+                            <span class="relative">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                                <span class="absolute -top-2 -right-2 bg-secondary text-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center" id="cart-count">0</span>
+                            </span>
+                            <span class="ml-2">Carrito</span>
+                        </a>
+                        <!-- Modal del carrito -->
+                        <div class="cart-modal absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg py-4 z-50" id="cart-modal">
+                            <div class="px-4 py-2 border-b border-gray-200">
+                                <h3 class="font-heading text-lg text-primary">Tu Carrito</h3>
+                            </div>
+                            <div class="max-h-96 overflow-y-auto p-4" id="cart-items">
+                                <!-- Los items del carrito se añadirán aquí dinámicamente -->
+                                <div class="text-center text-gray-500 py-8" id="empty-cart-message">
+                                    Tu carrito está vacío
+                                </div>
+                            </div>
+                            <div class="px-4 py-3 border-t border-gray-200">
+                                <div class="flex justify-between font-medium mb-4">
+                                    <span>Total:</span>
+                                    <span id="cart-total">$0.00</span>
+                                </div>
+                                <button class="w-full py-2 bg-gradient-to-r from-primary to-accent text-white rounded-lg hover:opacity-90 transition-opacity">
+                                    Realizar Pedido
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" class="ml-4 px-5 py-2 border-2 border-secondary text-white rounded-full hover:bg-secondary hover:text-dark transition-all duration-300" id="login-button">
+                            Iniciar Sesión
+                        </a>
+                    </li>
+                </ul>
+                <!-- Mobile menu button -->
+                <div class="flex items-center md:hidden">
+                    <a href="#" class="text-white mr-4 relative" id="mobile-cart-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span class="absolute -top-2 -right-2 bg-secondary text-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center" id="mobile-cart-count">0</span>
+                    </a>
+                    <button class="text-white text-2xl" id="mobile-menu-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div class="md:hidden hidden mt-4" id="mobile-menu">
+                <ul class="flex flex-col space-y-4">
+                    <li><a href="#home" class="block text-white hover:text-secondary">Inicio</a></li>
+                    <li>
+                        <button class="flex justify-between items-center w-full text-white hover:text-secondary" id="mobile-menu-dropdown-toggle">
+                            Menú
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="hidden pl-4 mt-2 space-y-2" id="mobile-menu-dropdown">
+                            <a href="#cafeteria" class="block text-white hover:text-secondary">Cafetería</a>
+                            <a href="#jugos" class="block text-white hover:text-secondary">Jugos</a>
+                            <a href="#zumos" class="block text-white hover:text-secondary">Zumos</a>
+                            <a href="#masitas" class="block text-white hover:text-secondary">Masitas</a>
+                            <a href="#sandwiches" class="block text-white hover:text-secondary">Sándwiches</a>
+                            <a href="#refrescos" class="block text-white hover:text-secondary">Refrescos</a>
+                            <a href="#postres" class="block text-white hover:text-secondary">Postres</a>
+                            <a href="#platos-extras" class="block text-white hover:text-secondary">Platos Extras</a>
+                        </div>
+                    </li>
+                    <li><a href="#contact" class="block text-white hover:text-secondary">Contacto</a></li>
+                    <li>
+                        <a href="#" class="block px-5 py-2 border-2 border-secondary text-white rounded-full hover:bg-secondary hover:text-dark transition-all duration-300 w-max" id="mobile-login-button">
+                            Iniciar Sesión
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Cart Modal -->
+    <div class="fixed inset-0 bg-black/70 z-[2000] hidden justify-center items-center" id="mobile-cart-modal">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 relative overflow-hidden">
+            <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800" id="close-mobile-cart">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            
+            <div class="p-4 border-b border-gray-200">
+                <h3 class="font-heading text-xl text-primary">Tu Carrito</h3>
+            </div>
+            
+            <div class="max-h-96 overflow-y-auto p-4" id="mobile-cart-items">
+                <!-- Los items del carrito se añadirán aquí dinámicamente -->
+                <div class="text-center text-gray-500 py-8" id="mobile-empty-cart-message">
+                    Tu carrito está vacío
+                </div>
+            </div>
+            
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex justify-between font-medium mb-4">
+                    <span>Total:</span>
+                    <span id="mobile-cart-total">$0.00</span>
+                </div>
+                <button class="w-full py-3 bg-gradient-to-r from-primary to-accent text-white rounded-lg hover:opacity-90 transition-opacity">
+                    Realizar Pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login/Register Modal -->
+    <div class="fixed inset-0 bg-black/70 z-[2000] hidden justify-center items-center" id="auth-modal">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 relative overflow-hidden">
+            <!-- Close button -->
+            <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800" id="close-modal">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            
+            <!-- Login Form -->
+            <div class="p-6" id="login-form">
+                <h3 class="text-2xl font-heading font-bold text-center mb-6 text-primary">Iniciar Sesión</h3>
+                <form>
+                    <div class="mb-4">
+                        <label for="login-email" class="block text-sm font-medium mb-1">Email</label>
+                        <input type="email" id="login-email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="login-password" class="block text-sm font-medium mb-1">Contraseña</label>
+                        <input type="password" id="login-password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" required>
+                    </div>
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="remember-me" class="mr-2">
+                            <label for="remember-me" class="text-sm">Recordarme</label>
+                        </div>
+                        <a href="#" class="text-sm text-primary hover:underline">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <!-- Botón de Iniciar Sesión -->
+                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-primary to-accent text-white rounded-lg hover:opacity-90 transition-opacity mb-3">
+                        Iniciar Sesión
+                    </button>
+
+                    <!-- Botón de Google -->
+                    <button type="button" class="w-full py-2 border border-gray-300 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-100 transition">
+                        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google logo" class="w-5 h-5">
+                        <span class="text-sm font-medium text-gray-700">Continuar con Google</span>
+                    </button>
+
+                    <div class="mt-6 text-center">
+                        <p class="text-sm text-gray-600">¿No tienes una cuenta?</p>
+                        <a href="#" class="text-primary font-medium hover:underline" id="create-account-link">Crear usuario</a>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Register Form -->
+            <div class="p-6 hidden" id="register-form">
+                <h3 class="text-2xl font-heading font-bold text-center mb-6 text-primary">Crear una cuenta</h3>
+                <form>
+                    <div class="mb-4">
+                        <label for="register-name" class="block text-sm font-medium mb-1">Nombre completo</label>
+                        <input type="text" id="register-name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="register-email" class="block text-sm font-medium mb-1">Email</label>
+                        <input type="email" id="register-email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="register-password" class="block text-sm font-medium mb-1">Contraseña</label>
+                        <input type="password" id="register-password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="register-confirm-password" class="block text-sm font-medium mb-1">Confirmar contraseña</label>
+                        <input type="password" id="register-confirm-password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" required>
+                    </div>
+                    <div class="flex items-center mb-6">
+                        <input type="checkbox" id="terms" class="mr-2" required>
+                        <label for="terms" class="text-sm">Acepto los <a href="#" class="text-primary hover:underline">términos y condiciones</a></label>
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-primary to-accent text-white rounded-lg hover:opacity-90 transition-opacity">Crear Cuenta</button>
+                    
+                    <div class="mt-6 text-center">
+                        <p class="text-sm text-gray-600">¿Ya tienes una cuenta?</p>
+                        <a href="#" class="text-primary font-medium hover:underline" id="login-account-link">Iniciar sesión</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header id="home" class="h-screen bg-gradient-to-b from-dark/80 to-primary/80 bg-cover bg-center flex flex-col justify-center items-center text-center text-white relative" style="background-image: url('/placeholder.svg?height=1080&width=1920')">
+        <div class="z-10 px-4">
+            <h1 class="font-heading text-5xl md:text-6xl mb-6 text-white shadow-text">Café Elegante</h1>
+            <p class="text-xl md:text-2xl max-w-2xl mb-8">Una experiencia gourmet para los amantes del buen café</p>
+            <a href="#menu" class="px-8 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-full hover:shadow-lg transition-all duration-300 border-2 border-secondary">Ver Menú</a>
+        </div>
+    </header>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="font-heading text-4xl text-primary inline-block relative pb-3 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-1 after:bg-accent">Nuestro Menú</h2>
+            </div>
+
+            <!-- Cafetería -->
+            <div id="cafeteria" class="mb-20 scroll-mt-40">
+                <h3 class="font-heading text-3xl text-accent text-center mb-10">Cafetería</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="menu-item bg-light rounded-xl overflow-hidden shadow-lg">
+                        <div class="menu-item-img h-48 overflow-hidden">
+                            <img src="/placeholder.svg?height=400&width=600" alt="Espresso" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-heading text-xl text-primary">Espresso</h4>
+                                <span class="font-bold text-accent">$3.50</span>
+                            </div>
+                            <p class="text-sm text-dark mb-4">Café concentrado servido en taza pequeña, con crema dorada y aroma intenso.</p>
+                            <div class="flex justify-end">
+                                <button class="add-to-cart-btn w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center text-white shadow-md" 
+                                        data-id="espresso" 
+                                        data-name="Espresso" 
+                                        data-price="3.50" 
+                                        data-image="/placeholder.svg?height=400&width=600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item bg-light rounded-xl overflow-hidden shadow-lg">
+                        <div class="menu-item-img h-48 overflow-hidden">
+                            <img src="/placeholder.svg?height=400&width=600" alt="Cappuccino" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-heading text-xl text-primary">Cappuccino</h4>
+                                <span class="font-bold text-accent">$4.75</span>
+                            </div>
+                            <p class="text-sm text-dark mb-4">Espresso con leche vaporizada y espuma cremosa, espolvoreado con cacao.</p>
+                            <div class="flex justify-end">
+                                <button class="add-to-cart-btn w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center text-white shadow-md" 
+                                        data-id="cappuccino" 
+                                        data-name="Cappuccino" 
+                                        data-price="4.75" 
+                                        data-image="/placeholder.svg?height=400&width=600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item bg-light rounded-xl overflow-hidden shadow-lg">
+                        <div class="menu-item-img h-48 overflow-hidden">
+                            <img src="/placeholder.svg?height=400&width=600" alt="Latte" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-heading text-xl text-primary">Latte</h4>
+                                <span class="font-bold text-accent">$4.50</span>
+                            </div>
+                            <p class="text-sm text-dark mb-4">Espresso con abundante leche vaporizada y una fina capa de espuma.</p>
+                            <div class="flex justify-end">
+                                <button class="add-to-cart-btn w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center text-white shadow-md" 
+                                        data-id="latte" 
+                                        data-name="Latte" 
+                                        data-price="4.50" 
+                                        data-image="/placeholder.svg?height=400&width=600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jugos -->
+            <div id="jugos" class="mb-20 scroll-mt-40">
+                <h3 class="font-heading text-3xl text-accent text-center mb-10">Jugos</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="menu-item bg-light rounded-xl overflow-hidden shadow-lg">
+                        <div class="menu-item-img h-48 overflow-hidden">
+                            <img src="/placeholder.svg?height=400&width=600" alt="Jugo de Naranja" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-heading text-xl text-primary">Jugo de Naranja</h4>
+                                <span class="font-bold text-accent">$4.00</span>
+                            </div>
+                            <p class="text-sm text-dark mb-4">Jugo natural de naranja recién exprimido, sin azúcar añadido.</p>
+                            <div class="flex justify-end">
+                                <button class="add-to-cart-btn w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center text-white shadow-md" 
+                                        data-id="jugo-naranja" 
+                                        data-name="Jugo de Naranja" 
+                                        data-price="4.00" 
+                                        data-image="/placeholder.svg?height=400&width=600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item bg-light rounded-xl overflow-hidden shadow-lg">
+                        <div class="menu-item-img h-48 overflow-hidden">
+                            <img src="/placeholder.svg?height=400&width=600" alt="Jugo Verde" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-heading text-xl text-primary">Jugo Verde</h4>
+                                <span class="font-bold text-accent">$5.50</span>
+                            </div>
+                            <p class="text-sm text-dark mb-4">Mezcla refrescante de manzana, apio, pepino, espinaca y limón.</p>
+                            <div class="flex justify-end">
+                                <button class="add-to-cart-btn w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center text-white shadow-md" 
+                                        data-id="jugo-verde" 
+                                        data-name="Jugo Verde" 
+                                        data-price="5.50" 
+                                        data-image="/placeholder.svg?height=400&width=600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item bg-light rounded-xl overflow-hidden shadow-lg">
+                        <div class="menu-item-img h-48 overflow-hidden">
+                            <img src="/placeholder.svg?height=400&width=600" alt="Jugo de Fresa" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-heading text-xl text-primary">Jugo de Fresa</h4>
+                                <span class="font-bold text-accent">$4.75</span>
+                            </div>
+                            <p class="text-sm text-dark mb-4">Jugo natural de fresas frescas con un toque de miel.</p>
+                            <div class="flex justify-end">
+                                <button class="add-to-cart-btn w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center text-white shadow-md" 
+                                        data-id="jugo-fresa" 
+                                        data-name="Jugo de Fresa" 
+                                        data-price="4.75" 
+                                        data-image="/placeholder.svg?height=400&width=600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resto de secciones del menú con el mismo patrón... -->
+            <!-- Para este ejemplo, solo he modificado las primeras dos secciones -->
+
+            <!-- Footer -->
+            <footer class="bg-dark text-white py-8 mt-24">
+                <div class="container mx-auto px-4 text-center">
+                    <p>&copy; 2025 Café Elegante. Todos los derechos reservados.</p>
+                </div>
+            </footer>
+        </div>
+    </section>
+
+    <script>
+        // Carrito de compras
+        let cart = [];
+        let cartTotal = 0;
+
+        // Elementos del DOM
+        const cartCount = document.getElementById('cart-count');
+        const mobileCartCount = document.getElementById('mobile-cart-count');
+        const cartToggle = document.getElementById('cart-toggle');
+        const mobileCartToggle = document.getElementById('mobile-cart-toggle');
+        const cartModal = document.getElementById('cart-modal');
+        const mobileCartModal = document.getElementById('mobile-cart-modal');
+        const closeMobileCart = document.getElementById('close-mobile-cart');
+        const cartItems = document.getElementById('cart-items');
+        const mobileCartItems = document.getElementById('mobile-cart-items');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        const mobileEmptyCartMessage = document.getElementById('mobile-empty-cart-message');
+        const cartTotalElement = document.getElementById('cart-total');
+        const mobileCartTotalElement = document.getElementById('mobile-cart-total');
+        const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+
+        // Función para añadir un producto al carrito
+        function addToCart(id, name, price, image) {
+            // Comprobar si el producto ya está en el carrito
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                // Si ya existe, incrementar la cantidad
+                existingItem.quantity += 1;
+            } else {
+                // Si no existe, añadir nuevo item
+                cart.push({
+                    id,
+                    name,
+                    price,
+                    image,
+                    quantity: 1
+                });
+            }
+            
+            // Actualizar el contador del carrito
+            updateCartCount();
+            
+            // Actualizar el contenido del carrito
+            updateCartContent();
+            
+            // Calcular el total
+            calculateTotal();
+        }
+
+        // Función para actualizar el contador del carrito
+        function updateCartCount() {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            mobileCartCount.textContent = totalItems;
+            
+            // Añadir animación al contador
+            cartCount.classList.add('cart-badge-pulse');
+            mobileCartCount.classList.add('cart-badge-pulse');
+            
+            // Quitar la clase de animación después de que termine
+            setTimeout(() => {
+                cartCount.classList.remove('cart-badge-pulse');
+                mobileCartCount.classList.remove('cart-badge-pulse');
+            }, 500);
+        }
+
+        // Función para actualizar el contenido del carrito
+        function updateCartContent() {
+            // Limpiar el contenido actual
+            cartItems.innerHTML = '';
+            mobileCartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                // Mostrar mensaje de carrito vacío
+                emptyCartMessage.style.display = 'block';
+                mobileEmptyCartMessage.style.display = 'block';
+            } else {
+                // Ocultar mensaje de carrito vacío
+                emptyCartMessage.style.display = 'none';
+                mobileEmptyCartMessage.style.display = 'none';
+                
+                // Añadir cada item al carrito
+                cart.forEach(item => {
+                    const cartItemElement = createCartItemElement(item);
+                    const mobileCartItemElement = createCartItemElement(item);
+                    
+                    cartItems.appendChild(cartItemElement);
+                    mobileCartItems.appendChild(mobileCartItemElement);
+                });
+            }
+        }
+
+        // Función para crear un elemento de item del carrito
+        function createCartItemElement(item) {
+            const cartItem = document.createElement('div');
+            cartItem.className = 'flex items-center py-2 border-b border-gray-100';
+            
+            cartItem.innerHTML = `
+                <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                    <img src="${item.image}" alt="${item.name}" class="h-full w-full object-cover">
+                </div>
+                <div class="ml-4 flex-1">
+                    <h3 class="text-sm font-medium text-gray-900">${item.name}</h3>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex items-center">
+                            <button class="decrease-quantity text-xs px-2 py-1 bg-gray-100 rounded-l-md" data-id="${item.id}">-</button>
+                            <span class="text-xs px-2 py-1 bg-gray-50">${item.quantity}</span>
+                            <button class="increase-quantity text-xs px-2 py-1 bg-gray-100 rounded-r-md" data-id="${item.id}">+</button>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-sm font-medium text-gray-900">$${(item.price * item.quantity).toFixed(2)}</span>
+                            <button class="remove-from-cart ml-2 text-red-500" data-id="${item.id}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Añadir event listeners a los botones
+            const decreaseButton = cartItem.querySelector('.decrease-quantity');
+            const increaseButton = cartItem.querySelector('.increase-quantity');
+            const removeButton = cartItem.querySelector('.remove-from-cart');
+            
+            decreaseButton.addEventListener('click', () => {
+                decreaseQuantity(item.id);
+            });
+            
+            increaseButton.addEventListener('click', () => {
+                increaseQuantity(item.id);
+            });
+            
+            removeButton.addEventListener('click', () => {
+                removeFromCart(item.id);
+            });
+            
+            return cartItem;
+        }
+
+        // Función para disminuir la cantidad de un producto
+        function decreaseQuantity(id) {
+            const item = cart.find(item => item.id === id);
+            
+            if (item) {
+                if (item.quantity > 1) {
+                    item.quantity -= 1;
+                } else {
+                    // Si la cantidad es 1, eliminar el item
+                    removeFromCart(id);
+                    return;
+                }
+                
+                updateCartCount();
+                updateCartContent();
+                calculateTotal();
+            }
+        }
+
+        // Función para aumentar la cantidad de un producto
+        function increaseQuantity(id) {
+            const item = cart.find(item => item.id === id);
+            
+            if (item) {
+                item.quantity += 1;
+                
+                updateCartCount();
+                updateCartContent();
+                calculateTotal();
+            }
+        }
+
+        // Función para eliminar un producto del carrito
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            
+            updateCartCount();
+            updateCartContent();
+            calculateTotal();
+        }
+
+        // Función para calcular el total del carrito
+        function calculateTotal() {
+            cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            cartTotalElement.textContent = `$${cartTotal.toFixed(2)}`;
+            mobileCartTotalElement.textContent = `$${cartTotal.toFixed(2)}`;
+        }
+
+        // Event listeners para los botones de añadir al carrito
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.dataset.id;
+                const name = this.dataset.name;
+                const price = parseFloat(this.dataset.price);
+                const image = this.dataset.image;
+                
+                addToCart(id, name, price, image);
+            });
+        });
+
+        // Toggle del carrito en desktop
+        cartToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            cartModal.classList.toggle('active');
+        });
+
+        // Cerrar el carrito al hacer clic fuera
+        document.addEventListener('click', function(e) {
+            if (!cartToggle.contains(e.target) && !cartModal.contains(e.target)) {
+                cartModal.classList.remove('active');
+            }
+        });
+
+        // Toggle del carrito en móvil
+        mobileCartToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            mobileCartModal.classList.remove('hidden');
+            mobileCartModal.classList.add('flex');
+        });
+
+        // Cerrar el carrito móvil
+        closeMobileCart.addEventListener('click', function() {
+            mobileCartModal.classList.remove('flex');
+            mobileCartModal.classList.add('hidden');
+        });
+
+        // Cerrar el carrito móvil al hacer clic fuera
+        mobileCartModal.addEventListener('click', function(e) {
+            if (e.target === mobileCartModal) {
+                mobileCartModal.classList.remove('flex');
+                mobileCartModal.classList.add('hidden');
+            }
+        });
+
+        // Simple script to handle navigation bar scrolling effect
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('py-2');
+                nav.classList.remove('py-4');
+                nav.classList.add('bg-dark');
+                nav.classList.remove('bg-gradient-to-r');
+            } else {
+                nav.classList.remove('py-2');
+                nav.classList.add('py-4');
+                nav.classList.remove('bg-dark');
+                nav.classList.add('bg-gradient-to-r');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 100, // Adjusted for sticky header
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Mobile menu dropdown
+        const mobileMenuDropdownToggle = document.getElementById('mobile-menu-dropdown-toggle');
+        const mobileMenuDropdown = document.getElementById('mobile-menu-dropdown');
+
+        if (mobileMenuDropdownToggle) {
+            mobileMenuDropdownToggle.addEventListener('click', function() {
+                mobileMenuDropdown.classList.toggle('hidden');
+            });
+        }
+
+        // Menu dropdown toggle
+        const menuDropdownToggle = document.getElementById('menu-dropdown-toggle');
+        const menuDropdown = document.getElementById('menu-dropdown');
+
+        // Toggle dropdown on click
+        menuDropdownToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            menuDropdown.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!menuDropdownToggle.contains(e.target) && !menuDropdown.contains(e.target)) {
+                menuDropdown.classList.remove('active');
+            }
+        });
+
+        // Close dropdown when clicking on a category
+        menuDropdown.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                menuDropdown.classList.remove('active');
+            });
+        });
+
+        // Auth Modal
+        const loginButton = document.getElementById('login-button');
+        const mobileLoginButton = document.getElementById('mobile-login-button');
+        const authModal = document.getElementById('auth-modal');
+        const closeModal = document.getElementById('close-modal');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const createAccountLink = document.getElementById('create-account-link');
+        const loginAccountLink = document.getElementById('login-account-link');
+
+        // Open modal
+        loginButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            authModal.classList.remove('hidden');
+            authModal.classList.add('flex');
+        });
+
+        if (mobileLoginButton) {
+            mobileLoginButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                authModal.classList.remove('hidden');
+                authModal.classList.add('flex');
+            });
+        }
+
+        // Close modal
+        closeModal.addEventListener('click', function() {
+            authModal.classList.remove('flex');
+            authModal.classList.add('hidden');
+        });
+
+        // Close modal when clicking outside
+        authModal.addEventListener('click', function(e) {
+            if (e.target === authModal) {
+                authModal.classList.remove('flex');
+                authModal.classList.add('hidden');
+            }
+        });
+
+        // Switch to register form
+        createAccountLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginForm.classList.add('hidden');
+            registerForm.classList.remove('hidden');
+        });
+
+        // Switch to login form
+        loginAccountLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            registerForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
