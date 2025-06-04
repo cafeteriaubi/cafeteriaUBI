@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS desde CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -29,74 +28,39 @@
         }
     </script>
     <style>
-        /* Estilos personalizados que complementan a Tailwind */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Animaciones y transiciones */
-        .menu-item {
-            transition: transform 0.3s ease;
-        }
-
-        .menu-item:hover {
-            transform: translateY(-10px);
-        }
-
-        .menu-item-img img {
-            transition: transform 0.5s ease;
-        }
-
-        .menu-item:hover .menu-item-img img {
-            transform: scale(1.1);
-        }
-
-        /* Animación para el menú desplegable */
+        html { scroll-behavior: smooth; }
+        .menu-item { transition: transform 0.3s ease; }
+        .menu-item:hover { transform: translateY(-10px); }
+        .menu-item-img img { transition: transform 0.5s ease; }
+        .menu-item:hover .menu-item-img img { transform: scale(1.1); }
         .dropdown-menu {
-            opacity: 0;
-            transform: translateY(-10px);
-            visibility: hidden;
+            opacity: 0; transform: translateY(-10px); visibility: hidden;
             transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
         }
-
-        .dropdown-menu.active {
-            opacity: 1;
-            transform: translateY(0);
-            visibility: visible;
-        }
-
-        /* Animación para el botón de añadir al carrito */
-        .add-to-cart-btn {
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-
-        .add-to-cart-btn:hover {
-            transform: scale(1.1);
-        }
-
-        /* Animación para el modal del carrito */
+        .dropdown-menu.active { opacity: 1; transform: translateY(0); visibility: visible; }
+        .add-to-cart-btn { transition: transform 0.3s ease, background-color 0.3s ease; }
+        .add-to-cart-btn:hover { transform: scale(1.1); }
         .cart-modal {
-            opacity: 0;
-            transform: translateY(-20px);
-            visibility: hidden;
+            opacity: 0; transform: translateY(-20px); visibility: hidden;
             transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
         }
-
-        .cart-modal.active {
-            opacity: 1;
-            transform: translateY(0);
-            visibility: visible;
-        }
-
-        /* Animación para el contador del carrito */
+        .cart-modal.active { opacity: 1; transform: translateY(0); visibility: visible; }
         @keyframes cartBadgePulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.2); }
             100% { transform: scale(1); }
         }
-
-        .cart-badge-pulse {
-            animation: cartBadgePulse 0.5s ease;
+        .cart-badge-pulse { animation: cartBadgePulse 0.5s ease; }
+        .file-upload-area {
+            border: 2px dashed #d1d5db;
+            transition: border-color 0.3s ease;
+        }
+        .file-upload-area:hover {
+            border-color: #8B5A2B;
+        }
+        .file-upload-area.dragover {
+            border-color: #8B5A2B;
+            background-color: #f9fafb;
         }
     </style>
 </head>
@@ -115,16 +79,10 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </a>
-                        <!-- Menú desplegable vertical -->
                         <div class="dropdown-menu absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50" id="menu-dropdown">
                             <a href="#cafeteria" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Cafetería</a>
                             <a href="#jugos" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Jugos</a>
-                            <a href="#zumos" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Zumos</a>
-                            <a href="#masitas" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Masitas</a>
-                            <a href="#sandwiches" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Sándwiches</a>
-                            <a href="#refrescos" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Refrescos</a>
                             <a href="#postres" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Postres</a>
-                            <a href="#platos-extras" class="block px-4 py-2 text-dark hover:bg-primary hover:text-white transition-colors">Platos Extras</a>
                         </div>
                     </li>
                     <li><a href="#contact" class="text-white hover:text-secondary transition-colors">Contacto</a></li>
@@ -138,13 +96,13 @@
                             </span>
                             <span class="ml-2">Carrito</span>
                         </a>
+                        
                         <!-- Modal del carrito -->
                         <div class="cart-modal absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg py-4 z-50" id="cart-modal">
                             <div class="px-4 py-2 border-b border-gray-200">
                                 <h3 class="font-heading text-lg text-primary">Tu Carrito</h3>
                             </div>
                             <div class="max-h-96 overflow-y-auto p-4" id="cart-items">
-                                <!-- Los items del carrito se añadirán aquí dinámicamente -->
                                 <div class="text-center text-gray-500 py-8" id="empty-cart-message">
                                     Tu carrito está vacío
                                 </div>
@@ -154,176 +112,91 @@
                                     <span>Total:</span>
                                     <span id="cart-total">$0.00</span>
                                 </div>
-                                <button class="w-full py-2 bg-gradient-to-r from-primary to-accent text-white rounded-lg hover:opacity-90 transition-opacity">
+                                <button id="realizar-pedido-btn" class="w-full py-2 bg-gradient-to-r from-primary to-accent text-white rounded-lg hover:opacity-90 transition-opacity">
                                     Realizar Pedido
                                 </button>
                             </div>
                         </div>
-                    </li>
-                    <li>
-                        <a href="#" class="ml-4 px-5 py-2 border-2 border-secondary text-white rounded-full hover:bg-secondary hover:text-dark transition-all duration-300" id="login-button">
-                            Iniciar Sesión
-                        </a>
-                    </li>
-                </ul>
-                <!-- Mobile menu button -->
-                <div class="flex items-center md:hidden">
-                    <a href="#" class="text-white mr-4 relative" id="mobile-cart-toggle">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
-                        <span class="absolute -top-2 -right-2 bg-secondary text-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center" id="mobile-cart-count">0</span>
-                    </a>
-                    <button class="text-white text-2xl" id="mobile-menu-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <!-- Mobile menu -->
-            <div class="md:hidden hidden mt-4" id="mobile-menu">
-                <ul class="flex flex-col space-y-4">
-                    <li><a href="#home" class="block text-white hover:text-secondary">Inicio</a></li>
-                    <li>
-                        <button class="flex justify-between items-center w-full text-white hover:text-secondary" id="mobile-menu-dropdown-toggle">
-                            Menú
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div class="hidden pl-4 mt-2 space-y-2" id="mobile-menu-dropdown">
-                            <a href="#cafeteria" class="block text-white hover:text-secondary">Cafetería</a>
-                            <a href="#jugos" class="block text-white hover:text-secondary">Jugos</a>
-                            <a href="#zumos" class="block text-white hover:text-secondary">Zumos</a>
-                            <a href="#masitas" class="block text-white hover:text-secondary">Masitas</a>
-                            <a href="#sandwiches" class="block text-white hover:text-secondary">Sándwiches</a>
-                            <a href="#refrescos" class="block text-white hover:text-secondary">Refrescos</a>
-                            <a href="#postres" class="block text-white hover:text-secondary">Postres</a>
-                            <a href="#platos-extras" class="block text-white hover:text-secondary">Platos Extras</a>
-                        </div>
-                    </li>
-                    <li><a href="#contact" class="block text-white hover:text-secondary">Contacto</a></li>
-                    <li>
-                        <a href="#" class="block px-5 py-2 border-2 border-secondary text-white rounded-full hover:bg-secondary hover:text-dark transition-all duration-300 w-max" id="mobile-login-button">
-                            Iniciar Sesión
-                        </a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Mobile Cart Modal -->
-    <div class="fixed inset-0 bg-black/70 z-[2000] hidden justify-center items-center" id="mobile-cart-modal">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 relative overflow-hidden">
-            <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800" id="close-mobile-cart">
+    <!-- Modal de QR para Pago -->
+    <div class="fixed inset-0 bg-black/70 z-[2000] hidden justify-center items-center" id="qr-modal">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 relative overflow-hidden">
+            <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800" id="close-qr-modal">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
             
-            <div class="p-4 border-b border-gray-200">
-                <h3 class="font-heading text-xl text-primary">Tu Carrito</h3>
-            </div>
-            
-            <div class="max-h-96 overflow-y-auto p-4" id="mobile-cart-items">
-                <!-- Los items del carrito se añadirán aquí dinámicamente -->
-                <div class="text-center text-gray-500 py-8" id="mobile-empty-cart-message">
-                    Tu carrito está vacío
+            <div class="p-6 text-center">
+                <h3 class="text-2xl font-heading font-bold mb-4 text-primary">Realizar Pago</h3>
+                <div class="mb-4">
+                    <p class="text-lg font-medium mb-2">Total a pagar:</p>
+                    <p class="text-3xl font-bold text-accent" id="qr-total">$0.00</p>
                 </div>
-            </div>
-            
-            <div class="p-4 border-t border-gray-200">
-                <div class="flex justify-between font-medium mb-4">
-                    <span>Total:</span>
-                    <span id="mobile-cart-total">$0.00</span>
+                
+                <div class="mb-6">
+                    <p class="text-sm text-gray-600 mb-4">Realiza la transferencia a la siguiente cuenta:</p>
+                    <div class="flex justify-center mb-4">
+                        <img id="qr-image" src="/static/images/cuenta_bancaria.jpg" alt="Datos de cuenta bancaria" class="max-w-full h-auto border border-gray-300 rounded-lg shadow-md">
+                    </div>
                 </div>
-                <button class="w-full py-3 bg-gradient-to-r from-primary to-accent text-white rounded-lg hover:opacity-90 transition-opacity">
-                    Realizar Pedido
-                </button>
+
+                <!-- Área de subida de comprobante -->
+                <div class="mb-6">
+                    <p class="text-sm font-medium text-gray-700 mb-3">Sube tu comprobante de pago:</p>
+                    
+                    <!-- Área de drag & drop -->
+                    <div class="file-upload-area rounded-lg p-6 text-center cursor-pointer" id="file-upload-area">
+                        <input type="file" id="comprobante-input" accept="image/*" class="hidden">
+                        <div id="upload-placeholder">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <p class="text-sm text-gray-600">Haz clic aquí o arrastra tu comprobante</p>
+                            <p class="text-xs text-gray-400 mt-1">PNG, JPG hasta 5MB</p>
+                        </div>
+                        <div id="file-preview" class="hidden">
+                            <img id="preview-image" src="/placeholder.svg" alt="Vista previa" class="max-w-full h-32 object-cover mx-auto rounded-lg mb-2">
+                            <p id="file-name" class="text-sm text-gray-600"></p>
+                            <button type="button" id="remove-file" class="text-red-500 text-xs hover:underline">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <button id="subir-comprobante-btn" class="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400" disabled>
+                        Subir Comprobante
+                    </button>
+                    <button id="confirmar-sin-comprobante-btn" class="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                        Ya realicé la transferencia (sin comprobante)
+                    </button>
+                    <button id="cancelar-pago-btn" class="w-full py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
+                        Cancelar
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Login/Register Modal -->
-    <div class="fixed inset-0 bg-black/70 z-[2000] hidden justify-center items-center" id="auth-modal">
+    <!-- Modal de Confirmación -->
+    <div class="fixed inset-0 bg-black/70 z-[2000] hidden justify-center items-center" id="confirmacion-modal">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 relative overflow-hidden">
-            <!-- Close button -->
-            <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800" id="close-modal">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-            
-            <!-- Login Form -->
-            <div class="p-6" id="login-form">
-                <h3 class="text-2xl font-heading font-bold text-center mb-6 text-primary">Iniciar Sesión</h3>
-                <form>
-                    <div class="mb-4">
-                        <label for="login-email" class="block text-sm font-medium mb-1">Email</label>
-                        <input type="email" id="login-email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" required>
-                    </div>
-                    <div class="mb-6">
-                        <label for="login-password" class="block text-sm font-medium mb-1">Contraseña</label>
-                        <input type="password" id="login-password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" required>
-                    </div>
-                    <div class="flex justify-between items-center mb-6">
-                        <div class="flex items-center">
-                            <input type="checkbox" id="remember-me" class="mr-2">
-                            <label for="remember-me" class="text-sm">Recordarme</label>
-                        </div>
-                        <a href="#" class="text-sm text-primary hover:underline">¿Olvidaste tu contraseña?</a>
-                    </div>
-                    <!-- Botón de Iniciar Sesión -->
-                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-primary to-accent text-white rounded-lg hover:opacity-90 transition-opacity mb-3">
-                        Iniciar Sesión
-                    </button>
-
-                    <!-- Botón de Google -->
-                    <button type="button" class="w-full py-2 border border-gray-300 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-100 transition">
-                        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google logo" class="w-5 h-5">
-                        <span class="text-sm font-medium text-gray-700">Continuar con Google</span>
-                    </button>
-
-                    <div class="mt-6 text-center">
-                        <p class="text-sm text-gray-600">¿No tienes una cuenta?</p>
-                        <a href="#" class="text-primary font-medium hover:underline" id="create-account-link">Crear usuario</a>
-                    </div>
-                </form>
-            </div>
-            
-            <!-- Register Form -->
-            <div class="p-6 hidden" id="register-form">
-                <h3 class="text-2xl font-heading font-bold text-center mb-6 text-primary">Crear una cuenta</h3>
-                <form>
-                    <div class="mb-4">
-                        <label for="register-name" class="block text-sm font-medium mb-1">Nombre completo</label>
-                        <input type="text" id="register-name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="register-email" class="block text-sm font-medium mb-1">Email</label>
-                        <input type="email" id="register-email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="register-password" class="block text-sm font-medium mb-1">Contraseña</label>
-                        <input type="password" id="register-password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" required>
-                    </div>
-                    <div class="mb-6">
-                        <label for="register-confirm-password" class="block text-sm font-medium mb-1">Confirmar contraseña</label>
-                        <input type="password" id="register-confirm-password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" required>
-                    </div>
-                    <div class="flex items-center mb-6">
-                        <input type="checkbox" id="terms" class="mr-2" required>
-                        <label for="terms" class="text-sm">Acepto los <a href="#" class="text-primary hover:underline">términos y condiciones</a></label>
-                    </div>
-                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-primary to-accent text-white rounded-lg hover:opacity-90 transition-opacity">Crear Cuenta</button>
-                    
-                    <div class="mt-6 text-center">
-                        <p class="text-sm text-gray-600">¿Ya tienes una cuenta?</p>
-                        <a href="#" class="text-primary font-medium hover:underline" id="login-account-link">Iniciar sesión</a>
-                    </div>
-                </form>
+            <div class="p-6 text-center">
+                <div class="mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-green-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-heading font-bold mb-4 text-primary">¡Pedido Confirmado!</h3>
+                <p class="text-gray-600 mb-6" id="confirmacion-mensaje">Tu pedido ha sido procesado exitosamente. Recibirás una notificación cuando esté listo.</p>
+                <button id="cerrar-confirmacion-btn" class="w-full py-3 bg-gradient-to-r from-primary to-accent text-white rounded-lg hover:opacity-90 transition-opacity">
+                    Continuar
+                </button>
             </div>
         </div>
     </div>
@@ -344,26 +217,29 @@
                 <h2 class="font-heading text-4xl text-primary inline-block relative pb-3 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-1 after:bg-accent">Nuestro Menú</h2>
             </div>
 
-            <!-- Cafetería -->
-            <div id="cafeteria" class="mb-20 scroll-mt-40">
-                <h3 class="font-heading text-3xl text-accent text-center mb-10">Cafetería</h3>
+            <!-- Productos dinámicos desde Django -->
+            {% for categoria in categorias %}
+            <div id="{{ categoria.nombre|lower }}" class="mb-20 scroll-mt-40">
+                <h3 class="font-heading text-3xl text-accent text-center mb-10">{{ categoria.nombre }}</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {% for producto in productos %}
+                    {% if producto.categoria == categoria %}
                     <div class="menu-item bg-light rounded-xl overflow-hidden shadow-lg">
                         <div class="menu-item-img h-48 overflow-hidden">
-                            <img src="/placeholder.svg?height=400&width=600" alt="Espresso" class="w-full h-full object-cover">
+                            <img src="{{ producto.url_imagen }}" alt="{{ producto.nombre }}" class="w-full h-full object-cover">
                         </div>
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="font-heading text-xl text-primary">Espresso</h4>
-                                <span class="font-bold text-accent">$3.50</span>
+                                <h4 class="font-heading text-xl text-primary">{{ producto.nombre }}</h4>
+                                <span class="font-bold text-accent">${{ producto.precio }}</span>
                             </div>
-                            <p class="text-sm text-dark mb-4">Café concentrado servido en taza pequeña, con crema dorada y aroma intenso.</p>
+                            <p class="text-sm text-dark mb-4">{{ producto.descripcion }}</p>
                             <div class="flex justify-end">
                                 <button class="add-to-cart-btn w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center text-white shadow-md" 
-                                        data-id="espresso" 
-                                        data-name="Espresso" 
-                                        data-price="3.50" 
-                                        data-image="/placeholder.svg?height=400&width=600">
+                                        data-id="{{ producto.id_producto }}" 
+                                        data-name="{{ producto.nombre }}" 
+                                        data-price="{{ producto.precio }}" 
+                                        data-image="{{ producto.url_imagen }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                     </svg>
@@ -371,194 +247,164 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="menu-item bg-light rounded-xl overflow-hidden shadow-lg">
-                        <div class="menu-item-img h-48 overflow-hidden">
-                            <img src="/placeholder.svg?height=400&width=600" alt="Cappuccino" class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-center mb-2">
-                                <h4 class="font-heading text-xl text-primary">Cappuccino</h4>
-                                <span class="font-bold text-accent">$4.75</span>
-                            </div>
-                            <p class="text-sm text-dark mb-4">Espresso con leche vaporizada y espuma cremosa, espolvoreado con cacao.</p>
-                            <div class="flex justify-end">
-                                <button class="add-to-cart-btn w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center text-white shadow-md" 
-                                        data-id="cappuccino" 
-                                        data-name="Cappuccino" 
-                                        data-price="4.75" 
-                                        data-image="/placeholder.svg?height=400&width=600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="menu-item bg-light rounded-xl overflow-hidden shadow-lg">
-                        <div class="menu-item-img h-48 overflow-hidden">
-                            <img src="/placeholder.svg?height=400&width=600" alt="Latte" class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-center mb-2">
-                                <h4 class="font-heading text-xl text-primary">Latte</h4>
-                                <span class="font-bold text-accent">$4.50</span>
-                            </div>
-                            <p class="text-sm text-dark mb-4">Espresso con abundante leche vaporizada y una fina capa de espuma.</p>
-                            <div class="flex justify-end">
-                                <button class="add-to-cart-btn w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center text-white shadow-md" 
-                                        data-id="latte" 
-                                        data-name="Latte" 
-                                        data-price="4.50" 
-                                        data-image="/placeholder.svg?height=400&width=600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
-
-            <!-- Jugos -->
-            <div id="jugos" class="mb-20 scroll-mt-40">
-                <h3 class="font-heading text-3xl text-accent text-center mb-10">Jugos</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="menu-item bg-light rounded-xl overflow-hidden shadow-lg">
-                        <div class="menu-item-img h-48 overflow-hidden">
-                            <img src="/placeholder.svg?height=400&width=600" alt="Jugo de Naranja" class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-center mb-2">
-                                <h4 class="font-heading text-xl text-primary">Jugo de Naranja</h4>
-                                <span class="font-bold text-accent">$4.00</span>
-                            </div>
-                            <p class="text-sm text-dark mb-4">Jugo natural de naranja recién exprimido, sin azúcar añadido.</p>
-                            <div class="flex justify-end">
-                                <button class="add-to-cart-btn w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center text-white shadow-md" 
-                                        data-id="jugo-naranja" 
-                                        data-name="Jugo de Naranja" 
-                                        data-price="4.00" 
-                                        data-image="/placeholder.svg?height=400&width=600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="menu-item bg-light rounded-xl overflow-hidden shadow-lg">
-                        <div class="menu-item-img h-48 overflow-hidden">
-                            <img src="/placeholder.svg?height=400&width=600" alt="Jugo Verde" class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-center mb-2">
-                                <h4 class="font-heading text-xl text-primary">Jugo Verde</h4>
-                                <span class="font-bold text-accent">$5.50</span>
-                            </div>
-                            <p class="text-sm text-dark mb-4">Mezcla refrescante de manzana, apio, pepino, espinaca y limón.</p>
-                            <div class="flex justify-end">
-                                <button class="add-to-cart-btn w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center text-white shadow-md" 
-                                        data-id="jugo-verde" 
-                                        data-name="Jugo Verde" 
-                                        data-price="5.50" 
-                                        data-image="/placeholder.svg?height=400&width=600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="menu-item bg-light rounded-xl overflow-hidden shadow-lg">
-                        <div class="menu-item-img h-48 overflow-hidden">
-                            <img src="/placeholder.svg?height=400&width=600" alt="Jugo de Fresa" class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-center mb-2">
-                                <h4 class="font-heading text-xl text-primary">Jugo de Fresa</h4>
-                                <span class="font-bold text-accent">$4.75</span>
-                            </div>
-                            <p class="text-sm text-dark mb-4">Jugo natural de fresas frescas con un toque de miel.</p>
-                            <div class="flex justify-end">
-                                <button class="add-to-cart-btn w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center text-white shadow-md" 
-                                        data-id="jugo-fresa" 
-                                        data-name="Jugo de Fresa" 
-                                        data-price="4.75" 
-                                        data-image="/placeholder.svg?height=400&width=600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Resto de secciones del menú con el mismo patrón... -->
-            <!-- Para este ejemplo, solo he modificado las primeras dos secciones -->
-
-            <!-- Footer -->
-            <footer class="bg-dark text-white py-8 mt-24">
-                <div class="container mx-auto px-4 text-center">
-                    <p>&copy; 2025 Café Elegante. Todos los derechos reservados.</p>
-                </div>
-            </footer>
+            {% endfor %}
         </div>
     </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-8 mt-24">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Café Elegante. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 
     <script>
         // Carrito de compras
         let cart = [];
         let cartTotal = 0;
+        let currentVentaId = null;
+        let selectedFile = null;
 
         // Elementos del DOM
         const cartCount = document.getElementById('cart-count');
-        const mobileCartCount = document.getElementById('mobile-cart-count');
         const cartToggle = document.getElementById('cart-toggle');
-        const mobileCartToggle = document.getElementById('mobile-cart-toggle');
         const cartModal = document.getElementById('cart-modal');
-        const mobileCartModal = document.getElementById('mobile-cart-modal');
-        const closeMobileCart = document.getElementById('close-mobile-cart');
         const cartItems = document.getElementById('cart-items');
-        const mobileCartItems = document.getElementById('mobile-cart-items');
         const emptyCartMessage = document.getElementById('empty-cart-message');
-        const mobileEmptyCartMessage = document.getElementById('mobile-empty-cart-message');
         const cartTotalElement = document.getElementById('cart-total');
-        const mobileCartTotalElement = document.getElementById('mobile-cart-total');
         const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+        const realizarPedidoBtn = document.getElementById('realizar-pedido-btn');
+        
+        // Elementos del modal QR
+        const qrModal = document.getElementById('qr-modal');
+        const closeQrModal = document.getElementById('close-qr-modal');
+        const qrTotal = document.getElementById('qr-total');
+        const qrImage = document.getElementById('qr-image');
+        const subirComprobanteBtn = document.getElementById('subir-comprobante-btn');
+        const confirmarSinComprobanteBtn = document.getElementById('confirmar-sin-comprobante-btn');
+        const cancelarPagoBtn = document.getElementById('cancelar-pago-btn');
+        
+        // Elementos de subida de archivos
+        const fileUploadArea = document.getElementById('file-upload-area');
+        const comprobanteInput = document.getElementById('comprobante-input');
+        const uploadPlaceholder = document.getElementById('upload-placeholder');
+        const filePreview = document.getElementById('file-preview');
+        const previewImage = document.getElementById('preview-image');
+        const fileName = document.getElementById('file-name');
+        const removeFileBtn = document.getElementById('remove-file');
+        
+        // Elementos del modal de confirmación
+        const confirmacionModal = document.getElementById('confirmacion-modal');
+        const confirmacionMensaje = document.getElementById('confirmacion-mensaje');
+        const cerrarConfirmacionBtn = document.getElementById('cerrar-confirmacion-btn');
+
+        // Función para obtener el token CSRF
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Manejo de archivos
+        fileUploadArea.addEventListener('click', () => {
+            comprobanteInput.click();
+        });
+
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('dragover');
+        });
+
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.classList.remove('dragover');
+        });
+
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileSelect(files[0]);
+            }
+        });
+
+        comprobanteInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+
+        removeFileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            clearFileSelection();
+        });
+
+        function handleFileSelect(file) {
+            // Validar tipo de archivo
+            if (!file.type.startsWith('image/')) {
+                alert('Por favor selecciona una imagen válida');
+                return;
+            }
+
+            // Validar tamaño (5MB máximo)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('El archivo es demasiado grande. Máximo 5MB');
+                return;
+            }
+
+            selectedFile = file;
+            
+            // Mostrar vista previa
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImage.src = e.target.result;
+                fileName.textContent = file.name;
+                uploadPlaceholder.classList.add('hidden');
+                filePreview.classList.remove('hidden');
+                subirComprobanteBtn.disabled = false;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearFileSelection() {
+            selectedFile = null;
+            comprobanteInput.value = '';
+            uploadPlaceholder.classList.remove('hidden');
+            filePreview.classList.add('hidden');
+            subirComprobanteBtn.disabled = true;
+        }
 
         // Función para añadir un producto al carrito
         function addToCart(id, name, price, image) {
-            // Comprobar si el producto ya está en el carrito
             const existingItem = cart.find(item => item.id === id);
             
             if (existingItem) {
-                // Si ya existe, incrementar la cantidad
                 existingItem.quantity += 1;
             } else {
-                // Si no existe, añadir nuevo item
                 cart.push({
                     id,
                     name,
-                    price,
+                    price: parseFloat(price),
                     image,
                     quantity: 1
                 });
             }
             
-            // Actualizar el contador del carrito
             updateCartCount();
-            
-            // Actualizar el contenido del carrito
             updateCartContent();
-            
-            // Calcular el total
             calculateTotal();
         }
 
@@ -566,41 +412,25 @@
         function updateCartCount() {
             const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
             cartCount.textContent = totalItems;
-            mobileCartCount.textContent = totalItems;
             
-            // Añadir animación al contador
             cartCount.classList.add('cart-badge-pulse');
-            mobileCartCount.classList.add('cart-badge-pulse');
-            
-            // Quitar la clase de animación después de que termine
             setTimeout(() => {
                 cartCount.classList.remove('cart-badge-pulse');
-                mobileCartCount.classList.remove('cart-badge-pulse');
             }, 500);
         }
 
         // Función para actualizar el contenido del carrito
         function updateCartContent() {
-            // Limpiar el contenido actual
             cartItems.innerHTML = '';
-            mobileCartItems.innerHTML = '';
             
             if (cart.length === 0) {
-                // Mostrar mensaje de carrito vacío
                 emptyCartMessage.style.display = 'block';
-                mobileEmptyCartMessage.style.display = 'block';
             } else {
-                // Ocultar mensaje de carrito vacío
                 emptyCartMessage.style.display = 'none';
-                mobileEmptyCartMessage.style.display = 'none';
                 
-                // Añadir cada item al carrito
                 cart.forEach(item => {
                     const cartItemElement = createCartItemElement(item);
-                    const mobileCartItemElement = createCartItemElement(item);
-                    
                     cartItems.appendChild(cartItemElement);
-                    mobileCartItems.appendChild(mobileCartItemElement);
                 });
             }
         }
@@ -634,62 +464,46 @@
                 </div>
             `;
             
-            // Añadir event listeners a los botones
+            // Event listeners para los botones
             const decreaseButton = cartItem.querySelector('.decrease-quantity');
             const increaseButton = cartItem.querySelector('.increase-quantity');
             const removeButton = cartItem.querySelector('.remove-from-cart');
             
-            decreaseButton.addEventListener('click', () => {
-                decreaseQuantity(item.id);
-            });
-            
-            increaseButton.addEventListener('click', () => {
-                increaseQuantity(item.id);
-            });
-            
-            removeButton.addEventListener('click', () => {
-                removeFromCart(item.id);
-            });
+            decreaseButton.addEventListener('click', () => decreaseQuantity(item.id));
+            increaseButton.addEventListener('click', () => increaseQuantity(item.id));
+            removeButton.addEventListener('click', () => removeFromCart(item.id));
             
             return cartItem;
         }
 
-        // Función para disminuir la cantidad de un producto
+        // Funciones para manejar cantidades
         function decreaseQuantity(id) {
             const item = cart.find(item => item.id === id);
-            
             if (item) {
                 if (item.quantity > 1) {
                     item.quantity -= 1;
                 } else {
-                    // Si la cantidad es 1, eliminar el item
                     removeFromCart(id);
                     return;
                 }
-                
                 updateCartCount();
                 updateCartContent();
                 calculateTotal();
             }
         }
 
-        // Función para aumentar la cantidad de un producto
         function increaseQuantity(id) {
             const item = cart.find(item => item.id === id);
-            
             if (item) {
                 item.quantity += 1;
-                
                 updateCartCount();
                 updateCartContent();
                 calculateTotal();
             }
         }
 
-        // Función para eliminar un producto del carrito
         function removeFromCart(id) {
             cart = cart.filter(item => item.id !== id);
-            
             updateCartCount();
             updateCartContent();
             calculateTotal();
@@ -699,178 +513,248 @@
         function calculateTotal() {
             cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
             cartTotalElement.textContent = `$${cartTotal.toFixed(2)}`;
-            mobileCartTotalElement.textContent = `$${cartTotal.toFixed(2)}`;
         }
 
-        // Event listeners para los botones de añadir al carrito
+        // Función para realizar pedido
+        async function realizarPedido() {
+            if (cart.length === 0) {
+                alert('El carrito está vacío');
+                return;
+            }
+
+            try {
+                const response = await fetch('/crear-pedido/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        cart_items: cart.map(item => ({
+                            id: item.id,
+                            name: item.name,
+                            price: item.price,
+                            quantity: item.quantity
+                        }))
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentVentaId = data.venta_id;
+                    qrTotal.textContent = `$${data.total.toFixed(2)}`;
+                    qrImage.src = data.qr_image_url;
+                    
+                    // Limpiar selección de archivo
+                    clearFileSelection();
+                    
+                    // Cerrar modal del carrito y abrir modal QR
+                    cartModal.classList.remove('active');
+                    qrModal.classList.remove('hidden');
+                    qrModal.classList.add('flex');
+                } else {
+                    alert('Error al crear el pedido: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al procesar el pedido');
+            }
+        }
+
+        // Función para subir comprobante
+        async function subirComprobante() {
+            if (!currentVentaId || !selectedFile) {
+                alert('No hay pedido activo o archivo seleccionado');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('venta_id', currentVentaId);
+            formData.append('comprobante', selectedFile);
+
+            try {
+                subirComprobanteBtn.disabled = true;
+                subirComprobanteBtn.textContent = 'Subiendo...';
+
+                const response = await fetch('/subir-comprobante/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Cerrar modal QR y mostrar confirmación
+                    qrModal.classList.remove('flex');
+                    qrModal.classList.add('hidden');
+                    confirmacionMensaje.textContent = data.message;
+                    confirmacionModal.classList.remove('hidden');
+                    confirmacionModal.classList.add('flex');
+                    
+                    // Limpiar carrito
+                    cart = [];
+                    currentVentaId = null;
+                    updateCartCount();
+                    updateCartContent();
+                    calculateTotal();
+                } else {
+                    alert('Error al subir el comprobante: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al subir el comprobante');
+            } finally {
+                subirComprobanteBtn.disabled = false;
+                subirComprobanteBtn.textContent = 'Subir Comprobante';
+            }
+        }
+
+        // Función para confirmar pago sin comprobante
+        async function confirmarSinComprobante() {
+            if (!currentVentaId) {
+                alert('No hay pedido activo');
+                return;
+            }
+
+            try {
+                const response = await fetch('/confirmar-pago/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        venta_id: currentVentaId
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Cerrar modal QR y mostrar confirmación
+                    qrModal.classList.remove('flex');
+                    qrModal.classList.add('hidden');
+                    confirmacionMensaje.textContent = data.message;
+                    confirmacionModal.classList.remove('hidden');
+                    confirmacionModal.classList.add('flex');
+                    
+                    // Limpiar carrito
+                    cart = [];
+                    currentVentaId = null;
+                    updateCartCount();
+                    updateCartContent();
+                    calculateTotal();
+                } else {
+                    alert('Error al confirmar el pago: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al confirmar el pago');
+            }
+        }
+
+        // Event listeners
         addToCartButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const id = this.dataset.id;
                 const name = this.dataset.name;
-                const price = parseFloat(this.dataset.price);
+                const price = this.dataset.price;
                 const image = this.dataset.image;
                 
                 addToCart(id, name, price, image);
             });
         });
 
-        // Toggle del carrito en desktop
         cartToggle.addEventListener('click', function(e) {
             e.preventDefault();
             cartModal.classList.toggle('active');
         });
 
-        // Cerrar el carrito al hacer clic fuera
+        realizarPedidoBtn.addEventListener('click', realizarPedido);
+
+        // Event listeners para modales
+        closeQrModal.addEventListener('click', function() {
+            qrModal.classList.remove('flex');
+            qrModal.classList.add('hidden');
+        });
+
+        cancelarPagoBtn.addEventListener('click', function() {
+            qrModal.classList.remove('flex');
+            qrModal.classList.add('hidden');
+        });
+
+        subirComprobanteBtn.addEventListener('click', subirComprobante);
+        confirmarSinComprobanteBtn.addEventListener('click', confirmarSinComprobante);
+
+        cerrarConfirmacionBtn.addEventListener('click', function() {
+            confirmacionModal.classList.remove('flex');
+            confirmacionModal.classList.add('hidden');
+        });
+
+        // Cerrar modales al hacer clic fuera
         document.addEventListener('click', function(e) {
             if (!cartToggle.contains(e.target) && !cartModal.contains(e.target)) {
                 cartModal.classList.remove('active');
             }
         });
 
-        // Toggle del carrito en móvil
-        mobileCartToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            mobileCartModal.classList.remove('hidden');
-            mobileCartModal.classList.add('flex');
-        });
-
-        // Cerrar el carrito móvil
-        closeMobileCart.addEventListener('click', function() {
-            mobileCartModal.classList.remove('flex');
-            mobileCartModal.classList.add('hidden');
-        });
-
-        // Cerrar el carrito móvil al hacer clic fuera
-        mobileCartModal.addEventListener('click', function(e) {
-            if (e.target === mobileCartModal) {
-                mobileCartModal.classList.remove('flex');
-                mobileCartModal.classList.add('hidden');
+        qrModal.addEventListener('click', function(e) {
+            if (e.target === qrModal) {
+                qrModal.classList.remove('flex');
+                qrModal.classList.add('hidden');
             }
         });
 
-        // Simple script to handle navigation bar scrolling effect
-        window.addEventListener('scroll', function() {
-            const nav = document.getElementById('main-nav');
-            if (window.scrollY > 50) {
-                nav.classList.add('py-2');
-                nav.classList.remove('py-4');
-                nav.classList.add('bg-dark');
-                nav.classList.remove('bg-gradient-to-r');
-            } else {
-                nav.classList.remove('py-2');
-                nav.classList.add('py-4');
-                nav.classList.remove('bg-dark');
-                nav.classList.add('bg-gradient-to-r');
+        confirmacionModal.addEventListener('click', function(e) {
+            if (e.target === confirmacionModal) {
+                confirmacionModal.classList.remove('flex');
+                confirmacionModal.classList.add('hidden');
             }
         });
 
-        // Smooth scrolling for anchor links
+        // Navegación suave
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     window.scrollTo({
-                        top: target.offsetTop - 100, // Adjusted for sticky header
+                        top: target.offsetTop - 100,
                         behavior: 'smooth'
                     });
                 }
             });
         });
 
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuButton.addEventListener('click', function() {
-            mobileMenu.classList.toggle('hidden');
+        // Efecto de navegación al hacer scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('py-2');
+                nav.classList.remove('py-4');
+            } else {
+                nav.classList.remove('py-2');
+                nav.classList.add('py-4');
+            }
         });
 
-        // Mobile menu dropdown
-        const mobileMenuDropdownToggle = document.getElementById('mobile-menu-dropdown-toggle');
-        const mobileMenuDropdown = document.getElementById('mobile-menu-dropdown');
-
-        if (mobileMenuDropdownToggle) {
-            mobileMenuDropdownToggle.addEventListener('click', function() {
-                mobileMenuDropdown.classList.toggle('hidden');
-            });
-        }
-
-        // Menu dropdown toggle
+        // Dropdown del menú
         const menuDropdownToggle = document.getElementById('menu-dropdown-toggle');
         const menuDropdown = document.getElementById('menu-dropdown');
 
-        // Toggle dropdown on click
         menuDropdownToggle.addEventListener('click', function(e) {
             e.preventDefault();
             menuDropdown.classList.toggle('active');
         });
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
             if (!menuDropdownToggle.contains(e.target) && !menuDropdown.contains(e.target)) {
                 menuDropdown.classList.remove('active');
             }
-        });
-
-        // Close dropdown when clicking on a category
-        menuDropdown.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', function() {
-                menuDropdown.classList.remove('active');
-            });
-        });
-
-        // Auth Modal
-        const loginButton = document.getElementById('login-button');
-        const mobileLoginButton = document.getElementById('mobile-login-button');
-        const authModal = document.getElementById('auth-modal');
-        const closeModal = document.getElementById('close-modal');
-        const loginForm = document.getElementById('login-form');
-        const registerForm = document.getElementById('register-form');
-        const createAccountLink = document.getElementById('create-account-link');
-        const loginAccountLink = document.getElementById('login-account-link');
-
-        // Open modal
-        loginButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            authModal.classList.remove('hidden');
-            authModal.classList.add('flex');
-        });
-
-        if (mobileLoginButton) {
-            mobileLoginButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                authModal.classList.remove('hidden');
-                authModal.classList.add('flex');
-            });
-        }
-
-        // Close modal
-        closeModal.addEventListener('click', function() {
-            authModal.classList.remove('flex');
-            authModal.classList.add('hidden');
-        });
-
-        // Close modal when clicking outside
-        authModal.addEventListener('click', function(e) {
-            if (e.target === authModal) {
-                authModal.classList.remove('flex');
-                authModal.classList.add('hidden');
-            }
-        });
-
-        // Switch to register form
-        createAccountLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            loginForm.classList.add('hidden');
-            registerForm.classList.remove('hidden');
-        });
-
-        // Switch to login form
-        loginAccountLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            registerForm.classList.add('hidden');
-            loginForm.classList.remove('hidden');
         });
     </script>
 </body>

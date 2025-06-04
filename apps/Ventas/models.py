@@ -13,21 +13,24 @@ class Ventas(models.Model):
     class Meta:
         db_table="Venta"
     def __str__(self):
-        return self.total
-    def save(self, *args, **kwargs):
-        self.subtotal = self.cantidad * self.producto.precio
-        super().save(*args, **kwargs)
-        self.venta.calcular_total()  # Actualiza el total de la venta cada vez que se guarda un detalle.
+        return str(self.total)
+
+    def calcular_total(self):
+        """Calcula el total de la venta basado en los detalles"""
+        total = sum(detalle.subTotal for detalle in self.detalles.all())
+        self.total = total
+        self.save()
+
 
 class DetalleVenta(models.Model):
     id_detalle_venta=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
     venta = models.ForeignKey(Ventas, on_delete=models.CASCADE, related_name="detalles")
     cantidad=models.PositiveIntegerField()
-    producto = models.ManyToManyField(Producto)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, null=True, default=None)
     subTotal=models.DecimalField(max_digits=10, decimal_places=2)
     def save(self, *args, **kwargs):
-        self.subtotal = self.cantidad * self.producto.precio
         super().save(*args, **kwargs)
+        self.venta.calcular_total()  # Actualiza el total de la venta cada vez que se guarda un detalle.
     class Meta:
         db_table="DetalleVenta"
     def __str__(self):
